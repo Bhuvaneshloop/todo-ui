@@ -1,0 +1,25 @@
+name: Frontend Deployment
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cheking out the code
+        uses: actions/checkout@v4
+      - name: Building the fontend image
+        run: docker build -t bhuvanesh2003/todo-ui:latest .
+      - name: configuring the docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: psuhing in to the docker hub
+        run: docker push bhuvanesh2003/todo-ui:latest
+          
+      
+     
